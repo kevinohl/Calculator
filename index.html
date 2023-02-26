@@ -7,47 +7,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculator</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="js/calculator.js"></script>
+    <script src="js/calculator.js" defer></script>
 </head>
 
 <body>
     <div id="calc-frame">
-        <div id="calc-display">OwO</div>
+        <div id="calc-display"></div>
 
         <div id="button-grid">
             <div class="button-row">
-                <button>AC</button>
-                <button>^</button>
-                <button>%</button>
-                <button>/</button>
+                <button id="ac-btn">AC</button>
+                <button class="operator">^</button>
+                <button class="operator">%</button>
+                <button class="operator">/</button>
             </div>
 
             <div class="button-row">
                 <button>7</button>
                 <button>8</button>
                 <button>9</button>
-                <button>*</button>
+                <button class="operator">*</button>
             </div>
 
             <div class="button-row">
                 <button>4</button>
                 <button>5</button>
                 <button>6</button>
-                <button>-</button>
+                <button class="operator">-</button>
             </div>
 
             <div class="button-row">
                 <button>1</button>
                 <button>2</button>
                 <button>3</button>
-                <button>+</button>
+                <button class="operator">+</button>
             </div>
 
             <div class="button-row">
                 <button>0</button>
                 <button>.</button>
                 <button>Back</button>
-                <button>=</button>
+                <button class="operator">=</button>
             </div>
         </div>
     </div>
