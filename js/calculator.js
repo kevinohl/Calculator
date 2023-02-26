@@ -1,7 +1,7 @@
 const numbers = [...Array(10).keys()];
 const operators = ["+", "-", "*", "/", "^", "%"];
 
-let currentResult = 0;
+let currentResult = "";
 let previousInput = "";
 let latestInput = "";
 let currentDisplay = document.querySelector("#calc-display");
@@ -15,7 +15,10 @@ function multiply(a, b) {return a * b;}
 function power(a, b) {return a ** b;}
 function modulo(a, b) {return a % b;}
 function divide(a, b) {
-    if (b == 0) return "ERROR: Division by 0";
+    if (b == 0) {
+        clearAll();
+        return alert("ERROR: Division by 0");
+    }
     return a / b;
 }
 function operate(op, a, b) {return op(a, b);}
@@ -26,20 +29,23 @@ allButtons.forEach(button => button.addEventListener("click", clickButton));
 function clickButton() {
     previousInput = latestInput;
     latestInput = this.textContent;
-    if (latestInput == "AC") {
-        previousInput = "";
-        operand1 = "0";
-        operator = "";
-        isDecimal = false;
-    }
+    if (latestInput == "AC") clearAll()
     if (operators.includes(latestInput)) {
-        operand1 = +currentDisplay.textContent;
+        if (operator != "") {
+            currentResult = operate(operator, operand1, +currentDisplay.textContent);
+            operand1 = currentResult;
+        }
+        else {
+            operand1 = +currentDisplay.textContent;
+        }
         isDecimal = false;
         setOperator();
     }
     if (latestInput == "=") {
         isDecimal = false;
-        if (previousInput != "=") currentDisplay.textContent = operate(operator, operand1, +currentDisplay.textContent);
+        if (previousInput != "=") currentResult = operate(operator, operand1, +currentDisplay.textContent);
+        operator = "";
+        operand1 = currentResult;
     }
     updateDisplay();
     return console.log(this.textContent);
@@ -47,24 +53,30 @@ function clickButton() {
 
 function updateDisplay() {
     if (latestInput == "AC") {
-        currentDisplay.textContent = "";
+        return currentDisplay.textContent = "";
     }
     if (latestInput == "Back") {
         let currentDisplayText = currentDisplay.textContent;
-        currentDisplay.textContent = [...currentDisplayText].slice(0, currentDisplayText.length - 1).join("");
+        return currentDisplay.textContent = [...currentDisplayText].slice(0, currentDisplayText.length - 1).join("");
     }
     if (latestInput == "." && !isDecimal) {
         currentDisplay.textContent += ".";
-        isDecimal = true;
+        return isDecimal = true;
+    }
+    if (latestInput == "=") {
+        return currentDisplay.textContent = currentResult;
     }
     if (operators.includes(latestInput)) {
-        currentDisplay.textContent = "";
+        return currentDisplay.textContent = currentResult;
     }
     if (numbers.includes(parseInt(latestInput)) && currentDisplay.textContent == "0") {
-        currentDisplay.textContent = "";
+        return currentDisplay.textContent = "";
     }
     if (numbers.includes(parseInt(latestInput)) && ((numbers.includes(parseInt(previousInput)) || previousInput == ".") || currentDisplay.textContent == "")) {
-        currentDisplay.textContent += latestInput;
+        return currentDisplay.textContent += latestInput;
+    }
+    else {
+        return currentDisplay.textContent = latestInput;
     }
 }
 
@@ -95,4 +107,12 @@ function setOperator() {
             break;
         }
     }
+}
+
+function clearAll() {
+    currentResult = "";
+    previousInput = "";
+    operand1 = "";
+    operator = "";
+    isDecimal = false;
 }
