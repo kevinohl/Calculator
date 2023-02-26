@@ -39,7 +39,7 @@ function clickButton() {
     }
     if (latestInput == "=") {
         isDecimal = false;
-        currentDisplay.textContent = operate(operator, operand1, +currentDisplay.textContent);
+        if (previousInput != "=") currentDisplay.textContent = operate(operator, operand1, +currentDisplay.textContent);
     }
     updateDisplay();
     return console.log(this.textContent);
