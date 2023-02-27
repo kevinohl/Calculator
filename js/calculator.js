@@ -21,7 +21,7 @@ function divide(a, b) {
     }
     return a / b;
 }
-function operate(op, a, b) {return op(a, b);}
+function operate(op, a, b) { return Math.round(op(a, b) * 100) / 100;}
 
 const allButtons = document.querySelectorAll("button");
 allButtons.forEach(button => button.addEventListener("click", clickButton));
@@ -42,9 +42,10 @@ function clickButton() {
         setOperator();
     }
     if (latestInput == "=") {
-        isDecimal = false;
+        if (operator == "" || operand1 == "" || currentDisplay.textContent == "") return;
         if (previousInput != "=") currentResult = operate(operator, operand1, +currentDisplay.textContent);
         operator = "";
+        isDecimal = false;
         operand1 = currentResult;
     }
     updateDisplay();
