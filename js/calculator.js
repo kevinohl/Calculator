@@ -60,7 +60,10 @@ function updateDisplay() {
         let currentDisplayText = currentDisplay.textContent;
         return currentDisplay.textContent = [...currentDisplayText].slice(0, currentDisplayText.length - 1).join("");
     }
-    if (latestInput == "." && !isDecimal) {
+    if (latestInput == ".") {
+        if (isDecimal) {
+            return;
+        }
         currentDisplay.textContent += ".";
         return isDecimal = true;
     }
