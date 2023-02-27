@@ -9,11 +9,11 @@ let isDecimal = false;
 let operator = "";
 let operand1 = "";
 
-function add(a, b) {return a + b;}
-function subtract(a, b) {return a - b;}
-function multiply(a, b) {return a * b;}
-function power(a, b) {return a ** b;}
-function modulo(a, b) {return a % b;}
+function add(a, b) { return a + b; }
+function subtract(a, b) { return a - b; }
+function multiply(a, b) { return a * b; }
+function power(a, b) { return a ** b; }
+function modulo(a, b) { return a % b; }
 function divide(a, b) {
     if (b == 0) {
         clearAll();
@@ -21,14 +21,14 @@ function divide(a, b) {
     }
     return a / b;
 }
-function operate(op, a, b) { return Math.round(op(a, b) * 100) / 100;}
+function operate(op, a, b) { return Math.round(op(a, b) * 100) / 100; }
 
 const allButtons = document.querySelectorAll("button");
-allButtons.forEach(button => button.addEventListener("click", clickButton));
+allButtons.forEach(button => button.addEventListener("click", function () { parseInput(this.textContent) }));
 
-function clickButton() {
+function parseInput(input) {
     previousInput = latestInput;
-    latestInput = this.textContent;
+    latestInput = input;
     if (latestInput == "AC") clearAll()
     if (operators.includes(latestInput)) {
         if (operator != "") {
@@ -61,9 +61,7 @@ function updateDisplay() {
         return currentDisplay.textContent = [...currentDisplayText].slice(0, currentDisplayText.length - 1).join("");
     }
     if (latestInput == ".") {
-        if (isDecimal) {
-            return;
-        }
+        if (isDecimal) return;
         currentDisplay.textContent += ".";
         return isDecimal = true;
     }
@@ -86,30 +84,18 @@ function updateDisplay() {
 
 function setOperator() {
     switch (latestInput) {
-        case "+": {
-            operator = add;
+        case "+": operator = add;
             break;
-        }
-        case "-": {
-            operator = subtract;
+        case "-": operator = subtract;
             break;
-        }
-        case "*": {
-            operator = multiply;
+        case "*": operator = multiply;
             break;
-        }
-        case "/": {
-            operator = divide;
+        case "/": operator = divide;
             break;
-        }
-        case "%": {
-            operator = modulo;
+        case "%": operator = modulo;
             break;
-        }
-        case "^": {
-            operator = power;
+        case "^": operator = power;
             break;
-        }
     }
 }
 
@@ -119,4 +105,10 @@ function clearAll() {
     operand1 = "";
     operator = "";
     isDecimal = false;
+}
+
+// keyboard support
+document.onkeydown = function (e) {
+    // console.log(e.key);
+    if (numbers.includes(e.key) || operators.includes(e.key) || e.key == "=") parseInput(e.key);
 }
